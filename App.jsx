@@ -10,6 +10,8 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Divider = () => <View style={myStyle.divider} />;
 
@@ -21,7 +23,7 @@ const MyCustomComponent = name => {
   );
 };
 
-const App = () => {
+const HomeScreen = ({navigation}) => {
   const [number, onChangeNumber] = React.useState('');
 
   return (
@@ -44,6 +46,11 @@ const App = () => {
           keyboardType="numeric"
         />
         <Divider />
+        <Button
+          title="Open Secondary Screen"
+          color="#f2673a"
+          onPress={() => navigation.navigate('Secondary')}
+        />
         <Button
           title="Press Me"
           color="#f2673a"
@@ -134,6 +141,27 @@ const App = () => {
         </Text>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const SecondaryScren = () => {
+  return (
+    <View style={myStyle.container}>
+      <Text>Secondary Screen</Text>
+    </View>
+  );
+};
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Secondary" component={SecondaryScren} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
